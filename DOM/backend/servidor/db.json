@@ -1,76 +1,133 @@
 {
   "users": [
-    { "id": 1, "name": "Ana Torres", "active": true, "document": "123456" },
-    { "id": 2, "name": "Carlos Gómez", "active": true, "document": "987456" },
-    { "id": 3, "name": "María López", "active": false, "document": "133441" },
-    { "id": 4, "name": "Juan Pérez", "active": true, "document": "468788" },
-    { "id": 5, "name": "Laura Martínez", "active": true, "document": "555123" },
-    { "id": 6, "name": "Pedro Sánchez", "active": false, "document": "666789" },
-    { "id": 7, "name": "Sofía Ramírez", "active": true, "document": "777456" },
-    { "id": 8, "name": "Andrés Morales", "active": true, "document": "888912" },
-    { "id": 9, "name": "Valentina Cruz", "active": true, "document": "999321" },
-    { "id": 10, "name": "Diego Herrera", "active": false, "document": "101010" }
+    {
+      "id": "1",
+      "name": "Ana Torres",
+      "active": true,
+      "document": "123456"
+    },
+    {
+      "id": "2",
+      "name": "Carlos Gómez",
+      "active": true,
+      "document": "987456"
+    },
+    {
+      "id": "3",
+      "name": "María López",
+      "active": false,
+      "document": "133441"
+    },
+    {
+      "id": "4",
+      "name": "Juan Pérez",
+      "active": true,
+      "document": "468788"
+    },
+    {
+      "id": "5",
+      "name": "Laura Martínez",
+      "active": true,
+      "document": "555123"
+    },
+    {
+      "id": "6",
+      "name": "Pedro Sánchez",
+      "active": false,
+      "document": "666789"
+    },
+    {
+      "id": "7",
+      "name": "Sofía Ramírez",
+      "active": true,
+      "document": "777456"
+    },
+    {
+      "id": "8",
+      "name": "Andrés Morales",
+      "active": true,
+      "document": "888912"
+    },
+    {
+      "id": "9",
+      "name": "Valentina Cruz",
+      "active": true,
+      "document": "999321"
+    },
+    {
+      "id": "10",
+      "name": "Diego Herrera",
+      "active": false,
+      "document": "101010"
+    }
   ],
   "tasks": [
     {
-      "id": 1,
+      "id": "1",
       "userId": 1,
       "title": "Fundamentos Web",
       "description": "Estudiar conceptos básicos de HTML5 y semántica."
     },
     {
-      "id": 2,
+      "id": "2",
       "userId": 1,
       "title": "Protocolo HTTP",
       "description": "Práctica de métodos GET, POST, PUT y DELETE en consola."
     },
     {
-      "id": 3,
+      "id": "3",
       "userId": 2,
       "title": "Arquitectura",
       "description": "Diagramar el modelo Cliente-Servidor para el proyecto final."
     },
     {
-      "id": 4,
+      "id": "4",
       "userId": 4,
       "title": "Asincronía",
       "description": "Refactorizar código de callbacks a Promesas y Async/Await."
     },
     {
-      "id": 5,
+      "id": "5",
       "userId": 5,
       "title": "Diseño de APIs",
       "description": "Aplicar buenas prácticas de nombrado de rutas en REST."
     },
     {
-      "id": 6,
+      "id": "6",
       "userId": 7,
       "title": "Métodos de Array",
       "description": "Implementar búsquedas avanzadas usando Map, Filter y Find."
     },
     {
-      "id": 7,
+      "id": "7",
       "userId": 9,
       "title": "QA & Testing",
       "description": "Realizar pruebas unitarias básicas a los servicios de usuario."
     },
     {
-      "id": 8,
+      "id": "8",
       "userId": 9,
       "title": "Ciberseguridad",
       "description": "Validar entradas de formularios para prevenir inyecciones."
     },
     {
-      "id": 9,
+      "id": "9",
       "userId": 10,
       "title": "Documentación",
       "description": "Redactar el README.md con las instrucciones de instalación."
     },
     {
-      "id": 10,
+      "id": "10",
       "userId": 2,
       "title": "Integraciones",
       "description": "Conectar el frontend con el servicio externo de JSON Server."
+    },
+    {
+      "title": "pasado mañana",
+      "descripcion": "aguacates",
+      "userID": 2,
+      "id": "ts-m9pgoTeU"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
