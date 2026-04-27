@@ -21,7 +21,13 @@ const userForm = document.getElementById('userForm');
 const userDocInput = document.getElementById('userDoc');
 const userDocError = document.getElementById('userDocError');
 
+const taskForm = document.getElementById('taskForm');
+const taskInputTitle = document.getElementById('taskInputTitle');
+const taskInputDescription = document.getElementById('taskInputDescription');
+
 import { getUsers } from "../modules/users/index.js";
+
+import { createTask } from "../modules/tasks/index.js";
 
 // ============================================
 // 2. FUNCIONES AUXILIARES
@@ -101,7 +107,37 @@ async function handleFormSubmit(e) {
         clearError(userDocError, userDocInput);
         alert(`¡Usuario encontrado con éxito!\nBienvenido/a: ${user.name}`);
         console.log('Usuario validado:', user);
+                // gualdar en el local storage el id del user
+        localStorage.setItem('idUsuarioActual', user.id);
+        // Activar Formulario echo por Juan David Ramirez Saavedra
+        const taskFormContainer = document.getElementById("taskFormContainer");
+        taskFormContainer.classList.remove("formulario-oculto")
 
+        taskForm.addEventListener("submit", (e)=>{
+            e.preventDefault();
+
+            const valueTaskTitle = taskInputTitle.value.trim();
+            const valueTaskDescription = taskInputDescription.value.trim();
+
+            if (valueTaskTitle === "" & valueTaskDescription === ""){
+                
+                const formError = document.querySelectorAll(".inputTask")
+                formError.forEach((error)=>{
+                    error.classList.add("formularioError")
+                })
+
+                alert("¡Error! La descripción de la tarea es obligatoria.");
+                return;
+            }
+            alert("Tarea válida, procediendo al envío");
+            createTask(taskInputTitle.value,taskInputDescription.value);
+
+            alert("Tarea enviada correctamente");
+            taskInputDescription.value = "";
+            taskInputTitle.value = "";
+        });
+
+        
     } catch (error) {
         console.error('Error:', error);
         showError(userDocError, 'Error al conectar con el servidor');
