@@ -25,13 +25,68 @@ const taskForm = document.getElementById('taskForm');
 const taskInputTitle = document.getElementById('taskInputTitle');
 const taskInputDescription = document.getElementById('taskInputDescription');
 
-import { getUsers } from "../modules/users/index.js";
+// SELECCIÓN DEL DOM ()
+const tasksContainer = document.getElementById('tasksContainer');
+const taskCount = document.getElementById('taskCount');
+const emptyState = document.getElementById('emptyState');
+let contadorTareas = 0; // Para actualizar el número de tareas arriba
 
-import { createTask } from "../modules/tasks/index.js";
+import { getUsers } from "../modules/users/index.js";
+import {get  } from "../modules/helpers/index.js";
+import { createTask, getTasks } from "../modules/tasks/index.js";
 
 // ============================================
 // 2. FUNCIONES AUXILIARES
 // ============================================
+
+function renderTasks(tasks) {
+    // Limpiamos el contenedor
+    tasksContainer.innerHTML = '';
+    
+    contadorTareas = tasks.length;
+    taskCount.textContent = contadorTareas;
+
+    if (tasks.length === 0) {
+        // Si no hay tareas, mostramos el mensaje de "vacío"
+        emptyState.style.display = 'block';
+        tasksContainer.appendChild(emptyState);
+        return;
+    }
+
+    // Si hay tareas, ocultamos el estado vacío
+    emptyState.style.display = 'none';
+
+    // Iteramos y creamos los elementos
+    tasks.forEach(task => {
+        const taskCard = document.createElement('div');
+        taskCard.classList.add('task-card');
+
+        taskCard.innerHTML = `
+            <div class="task-info">
+                <h4>${task.title}</h4>
+                <p>${task.descripcion || task.description}</p>
+            </div>
+        `;
+        tasksContainer.appendChild(taskCard);
+    });
+}
+
+/**
+ * Función para cargar y actualizar la lista de tareas
+ */
+async function loadAndRefreshTasks(userId) {
+    try {
+        // Traemos todas las tareas para filtrar manualmente por ambos campos
+        const allTasks = await get(`tasks`);
+        
+        // Filtramos las que tengan userId (minúscula) O userID (mayúscula) igual al del usuario
+        const userTasks = allTasks.filter(t => t.userId == userId || t.userID == userId);
+        
+        renderTasks(userTasks);
+    } catch (error) {
+        console.error("Error al cargar tareas:", error);
+    }
+}
 
 function showError(errorElement, message) {
     errorElement.textContent = message;
@@ -58,6 +113,14 @@ userDocInput.addEventListener('input', () => {
         clearError(userDocError, userDocInput);
     }
 });
+
+// ============================================
+// 3. Manipulacion del DOM
+// ============================================
+
+
+    
+
 // ============================================
 // 4. MANEJO DE EVENTOS (Lógica de las funciones)
 // ============================================
@@ -107,8 +170,10 @@ async function handleFormSubmit(e) {
         clearError(userDocError, userDocInput);
         alert(`¡Usuario encontrado con éxito!\nBienvenido/a: ${user.name}`);
         console.log('Usuario validado:', user);
-                // gualdar en el local storage el id del user
-        localStorage.setItem('idUsuarioActual', user.id);
+
+        // gualdar en el local storage el id del user
+        const currentUserId=localStorage.setItem('idUsuarioActual', user.id);
+
         // Activar Formulario echo por Juan David Ramirez Saavedra
         const taskFormContainer = document.getElementById("taskFormContainer");
         taskFormContainer.classList.remove("formulario-oculto")
@@ -129,14 +194,20 @@ async function handleFormSubmit(e) {
                 alert("¡Error! La descripción de la tarea es obligatoria.");
                 return;
             }
+            
             alert("Tarea válida, procediendo al envío");
-            createTask(taskInputTitle.value,taskInputDescription.value);
+            createTask(taskInputTitle.value,taskInputDescription.value, currentUserId);
 
             alert("Tarea enviada correctamente");
             taskInputDescription.value = "";
             taskInputTitle.value = "";
         });
 
+
+        loadAndRefreshTasks(user.id);
+
+        
+        
         
     } catch (error) {
         console.error('Error:', error);

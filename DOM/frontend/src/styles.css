@@ -410,6 +410,13 @@ body {
     color: var(--color-text-tertiary);
 }
 
+.hidden {
+    display: none;
+}
+.empty-disble{
+    display: none;
+}
+
 /* Tarjeta de tarea */
 .task-card {
     background: var(--color-surface);
@@ -471,6 +478,18 @@ body {
     word-wrap: break-word;
 }
 
+.task-card__title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.task-card__description {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
 /* ============================================
     FOOTER
    ============================================ */

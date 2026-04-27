@@ -1,10 +1,10 @@
 import {post} from "../helpers/post.js"
 
-export const createTask = (title,descripcion) => {
+export const createTask = (title,description) => {
     const idUsuario = localStorage.getItem("idUsuarioActual");
     const newTask = {
         title: title,
-        descripcion:descripcion,
+        description:description,
         userID: parseInt(idUsuario)
     }
     post("tasks", newTask);
