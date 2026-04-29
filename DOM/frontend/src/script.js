@@ -63,14 +63,28 @@ function renderTasks(tasks) {
     tasks.forEach(task => {
         const taskCard = document.createElement('div');
         taskCard.classList.add('task-card');
+        const divTask = document.createElement('div');
+        divTask.classList.add('task-card');
 
-        taskCard.innerHTML = `
-            <div class="task-info">
-                <h4>${task.title}</h4>
-                <p>${task.descripcion || task.description}</p>
-            </div>
-        `;
-        tasksContainer.appendChild(taskCard);
+        const h4Title = document.createElement('h4');
+        const pContent = document.createElement('p');
+        const buttonDelete = document.createElement('button');
+        buttonDelete.classList.add('btn-delete');
+        const buttonEdit = document.createElement('button');
+        buttonEdit.classList.add('btn-edit');
+
+
+        h4Title.textContent = task.title;
+        pContent.textContent = task.descripcion || task.description;
+        buttonDelete.textContent = 'Eliminar';
+        buttonEdit.textContent = 'Editar';
+
+        divTask.appendChild(h4Title);
+        divTask.appendChild(pContent);
+        divTask.appendChild(buttonDelete);
+        divTask.appendChild(buttonEdit);
+
+        tasksContainer.appendChild(divTask);
     });
 }
 
