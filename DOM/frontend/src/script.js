@@ -21,6 +21,9 @@ const userForm = document.getElementById('userForm');
 const userDocInput = document.getElementById('userDoc');
 const userDocError = document.getElementById('userDocError');
 
+const totalUsers = document.getElementById('usersBtn');
+const divUsers = document.getElementById('card_totalUsers');
+
 const taskForm = document.getElementById('taskForm');
 const taskInputTitle = document.getElementById('taskInputTitle');
 const taskInputDescription = document.getElementById('taskInputDescription');
@@ -107,7 +110,38 @@ function isValidInput(input, message, errorElement){
         return true;
     }
 }
+let isVisible = false;
+totalUsers.addEventListener('click', async ()=>{
+    if (isVisible) {
+        divUsers.innerHTML = ""; // Limpia el contenedor
+        totalUsers.textContent = "Mostrar usuarios"; // Cambia el texto
+        isVisible = false;
+        divUsers.classList.remove('card_totalUsers')
+        return; // Salimos de la función
+    }
+    
+    const users = await getUsers();
+    divUsers.innerHTML = "";
+    divUsers.classList.add('card_totalUsers')
+    users.forEach((e)=>{
+        const card_Users = document.createElement("div");
+        const pNombreUsers = document.createElement("p");
+        pNombreUsers.classList.add('pcolor')
+        const pDoc = document.createElement("p");
+        pNombreUsers.textContent= `Nombre: ${e.name}`
+        pDoc.textContent= `Documento: ${e.document}`
 
+        card_Users.appendChild(pNombreUsers)
+        card_Users.appendChild(pDoc)
+        
+        divUsers.appendChild(card_Users)
+        
+    })
+    // 3. Actualizamos el estado y el botón
+    totalUsers.textContent = "Esconder usuarios";
+    isVisible = true;
+    
+})
 userDocInput.addEventListener('input', () => {
     if (userDocInput.value.trim().length > 0) {
         clearError(userDocError, userDocInput);
