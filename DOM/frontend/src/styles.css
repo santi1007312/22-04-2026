@@ -354,6 +354,7 @@ body {
     transition: all var(--transition-base);
     outline: none;
     margin-bottom: 10px;
+    width: 100%;
 }
 .formularioError{
     border-color: var(--color-error);
@@ -388,7 +389,19 @@ body {
     color: white;
     box-shadow: var(--shadow-sm);
 }
-
+.btn-delete, .btn-edit{
+    background-color: #eef2ff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    width: 50%;
+    height: 5vh;
+}
+.btn-delete {
+    grid-column: 2;
+    grid-row: 1;
+    background-color: rgba(255, 0, 0, 0.158);
+}
 /* ============================================
     SECCIÓN DE MENSAJES
    ============================================ */
@@ -473,7 +486,13 @@ body {
     animation: slideIn var(--transition-slow) ease-out;
     transition: all var(--transition-base);
 }
-
+.task-card{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+    justify-items: center;
+}
 .task-card:hover {
     box-shadow: var(--shadow-xl);
     transform: translateY(-2px);
