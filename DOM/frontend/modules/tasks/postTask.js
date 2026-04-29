@@ -1,13 +1,14 @@
 import {post} from "../helpers/post.js"
 
-export const createTask = (title,description) => {
+export const createTask = async (title,description) => {
     const idUsuario = localStorage.getItem("idUsuarioActual");
+
     const newTask = {
         title: title,
         description:description,
-        userID: parseInt(idUsuario)
+        userId: parseInt(idUsuario)
     }
-    post("tasks", newTask);
+    await post("tasks", newTask);
 
     alert("¡Tarea creada y asociada con éxito!")
 }

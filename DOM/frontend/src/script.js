@@ -20,6 +20,8 @@
 const userForm = document.getElementById('userForm');
 const userDocInput = document.getElementById('userDoc');
 const userDocError = document.getElementById('userDocError');
+const tareaError = document.getElementById('tareaError');
+const tituloError = document.getElementById('tituloError');
 
 const totalUsers = document.getElementById('usersBtn');
 const divUsers = document.getElementById('card_totalUsers');
@@ -43,10 +45,10 @@ import { createTask, getTasks } from "../modules/tasks/index.js";
 // ============================================
 
 function renderTasks(tasks) {
+    alert(tasks)
     // Limpiamos el contenedor
     tasksContainer.innerHTML = '';
-    
-    contadorTareas = tasks.length;
+    contadorTareas = tasks.length; 
     taskCount.textContent = contadorTareas;
 
     if (tasks.length === 0) {
@@ -161,7 +163,16 @@ userDocInput.addEventListener('input', () => {
         clearError(userDocError, userDocInput);
     }
 });
-
+taskInputTitle.addEventListener('input', () => {
+    if (taskInputTitle.value.trim().length > 0) {
+        clearError(tituloError, taskInputTitle);
+    }
+});
+taskInputDescription.addEventListener('input', () => {
+    if (taskInputDescription.value.trim().length > 0) {
+        clearError(tareaError, taskInputDescription);
+    }
+});
 // ============================================
 // 3. Manipulacion del DOM
 // ============================================
@@ -178,6 +189,12 @@ userDocInput.addEventListener('input', () => {
  */
 function handleInputChange() {
     if (userDocInput.value.trim().length > 0) {
+        clearError(userDocError, userDocInput);
+    }
+    if (taskInputTitle.value.trim().length > 0) {
+        clearError(userDocError, userDocInput);
+    }
+    if (taskInputDescription.value.trim().length > 0) {
         clearError(userDocError, userDocInput);
     }
 }
@@ -226,27 +243,33 @@ async function handleFormSubmit(e) {
         const taskFormContainer = document.getElementById("taskFormContainer");
         taskFormContainer.classList.remove("formulario-oculto")
 
-        taskForm.addEventListener("submit", (e)=>{
+        taskForm.addEventListener("submit",async (e)=>{
             e.preventDefault();
 
-            const valueTaskTitle = taskInputTitle.value.trim();
-            const valueTaskDescription = taskInputDescription.value.trim();
-
-            if (valueTaskTitle === "" & valueTaskDescription === ""){
-                
-                const formError = document.querySelectorAll(".inputTask")
-                formError.forEach((error)=>{
-                    error.classList.add("formularioError")
-                })
-
-                alert("¡Error! La descripción de la tarea es obligatoria.");
-                return;
-            }
+            // const valueTaskTitle = taskInputTitle.value.trim();
+            // const valueTaskDescription = taskInputDescription.value.trim();
+            // const formError = document.querySelectorAll(".inputTask")
             
-            alert("Tarea válida, procediendo al envío");
-            createTask(taskInputTitle.value,taskInputDescription.value, currentUserId);
+            const isFieldValidTarea = isValidInput(
+                taskInputTitle, 
+                'El titulo de la tarea es obligatorio', 
+                tituloError
+            );
+
+            const isFieldValiddesc = isValidInput(
+                taskInputDescription, 
+                'El la descripcion de la tarea es obligatoria', 
+                tareaError
+            );
+
+            if (!isFieldValidTarea & !isFieldValiddesc) return;
+
+            
+            // alert("Tarea válida, procediendo al envío");
+            await createTask(taskInputTitle.value,taskInputDescription.value, currentUserId);
 
             alert("Tarea enviada correctamente");
+            loadAndRefreshTasks(currentUserId);
             taskInputDescription.value = "";
             taskInputTitle.value = "";
         });
