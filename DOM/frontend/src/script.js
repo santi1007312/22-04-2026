@@ -39,13 +39,14 @@ let contadorTareas = 0; // Para actualizar el número de tareas arriba
 import { getUsers } from "../modules/users/index.js";
 import {get  } from "../modules/helpers/index.js";
 import { createTask, getTasks } from "../modules/tasks/index.js";
+import { deleteData } from "../modules/tasks/index.js";
 
 // ============================================
 // 2. FUNCIONES AUXILIARES
 // ============================================
 
 function renderTasks(tasks) {
-    alert(tasks)
+    
     // Limpiamos el contenedor
     tasksContainer.innerHTML = '';
     contadorTareas = tasks.length; 
@@ -87,6 +88,25 @@ function renderTasks(tasks) {
         divTask.appendChild(buttonEdit);
 
         tasksContainer.appendChild(divTask);
+        buttonDelete.addEventListener('click', async () =>{
+            const confirmar = confirm(`¿Desea eliminar la tarea ${task.title}?`);
+            if (confirmar) {
+                try {
+                    await deleteData('tasks', task.id);
+                    divTask.remove();
+                    contadorTareas--;
+                    taskCount.textContent = contadorTareas;
+                    if (contadorTareas === 0) {
+                        emptyState.style.display = 'block';
+                        tasksContainer.appendChild(emptyState);
+                    }
+                    alert("Tarea eliminada")
+                } catch (error) {
+                    console.error(error);
+                    alert("Error al eliminar la tarea")
+                }
+            }
+        })
     });
 }
 
