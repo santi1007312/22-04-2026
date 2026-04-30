@@ -1,4 +1,4 @@
-# PROYECTO BASE: [DOM] - Software Factory SENA
+# PROYECTO BASE: [Nombre de la Aplicación] - Software Factory SENA
 
 **Metodología:** *"Del Requerimiento al Producto"*
 
