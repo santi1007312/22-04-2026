@@ -257,8 +257,9 @@ async function handleFormSubmit(e) {
         console.log('Usuario validado:', user);
 
         // gualdar en el local storage el id del user
-        const currentUserId=localStorage.setItem('idUsuarioActual', user.id);
-
+        const currentUserId=user.id
+        localStorage.setItem('idUsuarioActual', currentUserId);
+        
         // Activar Formulario echo por Juan David Ramirez Saavedra
         const taskFormContainer = document.getElementById("taskFormContainer");
         taskFormContainer.classList.remove("formulario-oculto")
@@ -282,7 +283,7 @@ async function handleFormSubmit(e) {
                 tareaError
             );
 
-            if (!isFieldValidTarea & !isFieldValiddesc) return;
+            if (!isFieldValidTarea || !isFieldValiddesc) return;
 
             
             // alert("Tarea válida, procediendo al envío");
