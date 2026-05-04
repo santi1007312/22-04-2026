@@ -40,6 +40,7 @@ import { getUsers } from "../modules/users/index.js";
 import {get  } from "../modules/helpers/index.js";
 import { createTask, getTasks } from "../modules/tasks/index.js";
 import { deleteData } from "../modules/tasks/index.js";
+import { updateTask } from "../modules/tasks/updateTask.js";
 
 // ============================================
 // 2. FUNCIONES AUXILIARES
@@ -107,6 +108,49 @@ function renderTasks(tasks) {
                 }
             }
         })
+
+        buttonEdit.addEventListener('click', async () => {
+            // 1. Pedimos los nuevos valores mediante un prompt para no alterar la interfaz de tus compañeros
+            const nuevoTitulo = prompt("Editar título de la tarea:", task.title);
+            const nuevoDescripcion = prompt("Editar descripción de la tarea:", task.descripcion || task.description);
+
+            // 2. Validamos que el usuario no haya cancelado
+            if (nuevoTitulo === null || nuevoDescripcion === null) return; 
+
+            // Validamos que los campos no queden vacíos
+            if (nuevoTitulo.trim() === "" || nuevoDescripcion.trim() === "") {
+                alert("El título y la descripción no pueden estar vacíos.");
+                return;
+            }
+
+            try {
+                // 3. Obtenemos el ID del usuario actual
+                const currentUserId = localStorage.getItem('idUsuarioActual') || task.userId || task.userID;
+
+                // 4. Llamamos a tu función de actualización que importaste
+                await updateTask(
+                    task.id, 
+                    nuevoTitulo.trim(), 
+                    nuevoDescripcion.trim(), 
+                    currentUserId
+                );
+
+                // 5. Actualizamos el DOM al instante sin recargar la página
+                h4Title.textContent = nuevoTitulo.trim();
+                pContent.textContent = nuevoDescripcion.trim();
+
+                // Actualizamos los valores internos del objeto task
+                task.title = nuevoTitulo.trim();
+                task.descripcion = nuevoDescripcion.trim();
+                task.description = nuevoDescripcion.trim();
+
+                alert("¡Tarea actualizada correctamente!");
+
+            } catch (error) {
+                console.error("Error al actualizar la tarea:", error);
+                alert("Hubo un error al actualizar la tarea. Por favor, intenta de nuevo.");
+            }
+        });
     });
 }
 

@@ -135,16 +135,11 @@
       "id": "w_ddJ-uAvWM"
     },
     {
-      "title": "pasado mañana",
-      "description": "aguacates",
-      "userId": 1,
+      "title": "hoy",
+      "descripcion": "papas",
+      "userId": "1",
+      "userID": "1",
       "id": "NAL0EWxGf_k"
-    },
-    {
-      "title": "papas",
-      "description": "correccion Hola mundo",
-      "userId": 1,
-      "id": "1LKHk5cgOrI"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
