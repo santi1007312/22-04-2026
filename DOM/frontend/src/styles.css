@@ -650,3 +650,38 @@ body {
         transform: scale(0.95);
     }
 }
+
+
+/* Contenedor principal de notificaciones */
+#notification-container {
+    position: fixed; /* Lo fija en la pantalla */
+    top: 20px;       /* Distancia desde arriba */
+    right: 20px;      /* Distancia desde la derecha */
+    z-index: 10000;   /* Asegura que esté por encima de todo */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 320px;     /* Ancho fijo para que se vea ordenado */
+}
+
+/* Estilo de la tarjeta de notificación */
+.toast {
+    background: white;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #ccc; /* Color base */
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast-success { border-left-color: #48bb78; background-color: #f0fff4; color: #22543d; }
+.toast-error { border-left-color: #f56565; background-color: #fff5f5; color: #742a2a; }
+.toast-info { border-left-color: #4299e1; background-color: #ebf8ff; color: #2a4365; }
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}

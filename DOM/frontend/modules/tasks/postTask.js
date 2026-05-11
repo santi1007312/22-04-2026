@@ -10,5 +10,4 @@ export const createTask = async (title,description) => {
     }
     await post("tasks", newTask);
 
-    alert("¡Tarea creada y asociada con éxito!")
 }
