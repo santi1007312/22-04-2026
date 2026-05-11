@@ -140,6 +140,153 @@
       "userId": "1",
       "userID": "1",
       "id": "NAL0EWxGf_k"
+    },
+    {
+      "title": "provando fecha actual",
+      "description": "fecha actual",
+      "userId": 1,
+      "id": "IM808lH5OPs"
+    },
+    {
+      "title": "papas",
+      "description": "correccion Hola mundo",
+      "userId": 1,
+      "id": "TAY9kISsJik"
+    },
+    {
+      "title": "papas",
+      "description": "sadasdASSADdsa",
+      "userId": 1,
+      "id": "RJgCBGMmHtk"
+    },
+    {
+      "title": "pasado mañana",
+      "description": "correccion Hola mundo",
+      "userId": 1,
+      "id": "D8Yfm0rguZU"
+    },
+    {
+      "title": "pasado mañana",
+      "description": "sadasdASSADdsa",
+      "userId": 1,
+      "id": "b6I7ZI-at7I"
+    },
+    {
+      "title": "sdfsadfdsa",
+      "description": "fsadfdsafdsafdsa",
+      "userId": 2,
+      "id": "sGtTeoM1Kg8"
+    },
+    {
+      "title": "hoy ",
+      "description": "aguacates",
+      "userId": 1,
+      "id": "GWQsdUlT3lI"
+    },
+    {
+      "title": "papas",
+      "description": "correccion Hola mundo",
+      "userId": 1,
+      "id": "12-SfotU_nQ"
+    },
+    {
+      "title": "dweqwew",
+      "description": "eqweqwe",
+      "date": "2026-05-11T12:28:04.053Z",
+      "userId": 1,
+      "id": "6uDlBbjPeOg"
+    },
+    {
+      "title": "asdasff",
+      "description": "dsdafdg",
+      "date": 2026,
+      "userId": 1,
+      "id": "ZS07ZI7uwIA"
+    },
+    {
+      "title": "sadsadas",
+      "description": "asddasd",
+      "date": 11,
+      "userId": 1,
+      "id": "98m3MkAV6GM"
+    },
+    {
+      "title": "fecha completa",
+      "description": "hoy",
+      "date": "2026 4 1",
+      "userId": 1,
+      "id": "NrivPxoDhNY"
+    },
+    {
+      "title": "papas",
+      "description": "aguacates",
+      "date": "1/4/2026",
+      "userId": 1,
+      "id": "JU_y37mdsNY"
+    },
+    {
+      "title": "estado prueva",
+      "description": "estado",
+      "date": "1/4/2026",
+      "estado": "en progreso",
+      "userId": 1,
+      "id": "kvwzmxQWSkE"
+    },
+    {
+      "title": "dsfdsf",
+      "description": "adasdas",
+      "date": "1/4/2026",
+      "estado": "en progreso",
+      "userId": 1,
+      "id": "VAYyyqzfVbo"
+    },
+    {
+      "title": "holqweqw",
+      "description": "erwqrqw",
+      "date": "1/4/2026",
+      "estado": "en progreso",
+      "userId": 1,
+      "id": "O4aTX9sUCW4"
+    },
+    {
+      "title": "fecha corregida",
+      "description": "fecha sin desfase",
+      "date": "2026-05-11",
+      "estado": "en progreso",
+      "userId": 1,
+      "id": "CLRsOFK05t0"
+    },
+    {
+      "title": "sol ",
+      "description": "con capul",
+      "date": "2026-05-11",
+      "estado": "en progreso",
+      "userId": 7,
+      "id": "Yn69qstEN1w"
+    },
+    {
+      "title": "holka",
+      "description": "fgdgdf",
+      "date": "2026-05-11",
+      "estado": "en progreso",
+      "userId": 7,
+      "id": "gFkkIZRUCSs"
+    },
+    {
+      "title": "rewrewrew",
+      "description": "rewrewrewr",
+      "date": "2026-05-11",
+      "estado": "en progreso",
+      "userId": 1,
+      "id": "Qsh6hQ-zzOo"
+    },
+    {
+      "title": "papas",
+      "description": "aguacates",
+      "date": "2026-01-10",
+      "estado": "en progreso",
+      "userId": 7,
+      "id": "k5hAUTqUz4E"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

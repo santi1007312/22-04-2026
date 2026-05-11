@@ -27,14 +27,23 @@ export function renderTasks(tasks, tasksContainer, taskCount, emptyState) {
         buttonDelete.classList.add('btn-delete'); // Tu clase original
         const buttonEdit = document.createElement('button');
         buttonEdit.classList.add('btn-edit'); // Tu clase original
+        const fecha = document.createElement("p")
+        const estado = document.createElement("p")
+        const containerInformation = document.createElement("div");
+        containerInformation.classList.add("containerInformation")
 
         h4Title.textContent = task.title;
         pContent.textContent = task.descripcion || task.description;
+        fecha.textContent = task.date;
+        estado.textContent = task.estado
         buttonDelete.textContent = 'Eliminar';
         buttonEdit.textContent = 'Editar';
 
-        divTask.appendChild(h4Title);
-        divTask.appendChild(pContent);
+        containerInformation.appendChild(h4Title);
+        containerInformation.appendChild(pContent);
+        containerInformation.appendChild(fecha);
+        containerInformation.appendChild(estado)
+        divTask.appendChild(containerInformation);
         divTask.appendChild(buttonDelete);
         divTask.appendChild(buttonEdit);
 
@@ -94,5 +103,23 @@ export async function loadAndRefreshTasks(userId, tasksContainer, taskCount, emp
         renderTasks(userTasks, tasksContainer, taskCount, emptyState);
     } catch (error) {
         console.error("Error al cargar tareas:", error);
+    }
+}
+
+export async function cargarDatosFiltrados(fecha, nombre) {
+    try {
+        // Usamos URLSearchParams para manejar los parámetros de forma limpia
+        const params = new URLSearchParams();
+        
+        if (fecha) params.append('date', fecha);
+        
+        // Aquí está el truco: usamos 'title_like' para búsqueda flexible
+        if (nombre) params.append('title_like', nombre);
+
+        const response = await fetch(`http://localhost:3000/tasks?${params.toString()}`);
+        return await response.json();
+    } catch (error) {
+        console.error("Error en el fetch:", error);
+        return [];
     }
 }
