@@ -12,6 +12,12 @@
 // 1. SELECCIÓN DE ELEMENTOS DEL DOM
 // ============================================
 
+import { getUsers } from "../modules/users/index.js";
+import { createTask } from "../modules/tasks/index.js";
+import { showError, clearError, isValidInput } from "../modules/helpers/index.js";
+import { notify } from "../modules/helpers/index.js";
+import { loadAndRefreshTasks } from "../modules/tasks/index.js";
+
 /**
  * Seleccionamos los elementos del DOM que necesitamos manipular.
  * Usamos getElementById para obtener referencias a los elementos únicos.
@@ -20,8 +26,6 @@
 const userForm = document.getElementById('userForm');
 const userDocInput = document.getElementById('userDoc');
 const userDocError = document.getElementById('userDocError');
-const tareaError = document.getElementById('tareaError');
-const tituloError = document.getElementById('tituloError');
 
 const totalUsers = document.getElementById('usersBtn');
 const divUsers = document.getElementById('card_totalUsers');
@@ -36,160 +40,11 @@ const taskCount = document.getElementById('taskCount');
 const emptyState = document.getElementById('emptyState');
 let contadorTareas = 0; // Para actualizar el número de tareas arriba
 
-import { getUsers } from "../modules/users/index.js";
-import {get  } from "../modules/helpers/index.js";
-import { createTask, getTasks } from "../modules/tasks/index.js";
-import { deleteData } from "../modules/tasks/index.js";
-import { updateTask } from "../modules/tasks/updateTask.js";
-
 // ============================================
 // 2. FUNCIONES AUXILIARES
 // ============================================
 
-function renderTasks(tasks) {
-    
-    // Limpiamos el contenedor
-    tasksContainer.innerHTML = '';
-    contadorTareas = tasks.length; 
-    taskCount.textContent = contadorTareas;
 
-    if (tasks.length === 0) {
-        // Si no hay tareas, mostramos el mensaje de "vacío"
-        emptyState.style.display = 'block';
-        tasksContainer.appendChild(emptyState);
-        return;
-    }
-
-    // Si hay tareas, ocultamos el estado vacío
-    emptyState.style.display = 'none';
-
-    // Iteramos y creamos los elementos
-    tasks.forEach(task => {
-        const taskCard = document.createElement('div');
-        taskCard.classList.add('task-card');
-        const divTask = document.createElement('div');
-        divTask.classList.add('task-card');
-
-        const h4Title = document.createElement('h4');
-        const pContent = document.createElement('p');
-        const buttonDelete = document.createElement('button');
-        buttonDelete.classList.add('btn-delete');
-        const buttonEdit = document.createElement('button');
-        buttonEdit.classList.add('btn-edit');
-
-
-        h4Title.textContent = task.title;
-        pContent.textContent = task.descripcion || task.description;
-        buttonDelete.textContent = 'Eliminar';
-        buttonEdit.textContent = 'Editar';
-
-        divTask.appendChild(h4Title);
-        divTask.appendChild(pContent);
-        divTask.appendChild(buttonDelete);
-        divTask.appendChild(buttonEdit);
-
-        tasksContainer.appendChild(divTask);
-        buttonDelete.addEventListener('click', async () =>{
-            const confirmar = confirm(`¿Desea eliminar la tarea ${task.title}?`);
-            if (confirmar) {
-                try {
-                    await deleteData('tasks', task.id);
-                    divTask.remove();
-                    contadorTareas--;
-                    taskCount.textContent = contadorTareas;
-                    if (contadorTareas === 0) {
-                        emptyState.style.display = 'block';
-                        tasksContainer.appendChild(emptyState);
-                    }
-                    alert("Tarea eliminada")
-                } catch (error) {
-                    console.error(error);
-                    alert("Error al eliminar la tarea")
-                }
-            }
-        })
-
-        buttonEdit.addEventListener('click', async () => {
-            // 1. Pedimos los nuevos valores mediante un prompt para no alterar la interfaz de tus compañeros
-            const nuevoTitulo = prompt("Editar título de la tarea:", task.title);
-            const nuevoDescripcion = prompt("Editar descripción de la tarea:", task.descripcion || task.description);
-
-            // 2. Validamos que el usuario no haya cancelado
-            if (nuevoTitulo === null || nuevoDescripcion === null) return; 
-
-            // Validamos que los campos no queden vacíos
-            if (nuevoTitulo.trim() === "" || nuevoDescripcion.trim() === "") {
-                alert("El título y la descripción no pueden estar vacíos.");
-                return;
-            }
-
-            try {
-                // 3. Obtenemos el ID del usuario actual
-                const currentUserId = localStorage.getItem('idUsuarioActual') || task.userId || task.userID;
-
-                // 4. Llamamos a tu función de actualización que importaste
-                await updateTask(
-                    task.id, 
-                    nuevoTitulo.trim(), 
-                    nuevoDescripcion.trim(), 
-                    currentUserId
-                );
-
-                // 5. Actualizamos el DOM al instante sin recargar la página
-                h4Title.textContent = nuevoTitulo.trim();
-                pContent.textContent = nuevoDescripcion.trim();
-
-                // Actualizamos los valores internos del objeto task
-                task.title = nuevoTitulo.trim();
-                task.descripcion = nuevoDescripcion.trim();
-                task.description = nuevoDescripcion.trim();
-
-                alert("¡Tarea actualizada correctamente!");
-
-            } catch (error) {
-                console.error("Error al actualizar la tarea:", error);
-                alert("Hubo un error al actualizar la tarea. Por favor, intenta de nuevo.");
-            }
-        });
-    });
-}
-
-/**
- * Función para cargar y actualizar la lista de tareas
- */
-async function loadAndRefreshTasks(userId) {
-    try {
-        // Traemos todas las tareas para filtrar manualmente por ambos campos
-        const allTasks = await get(`tasks`);
-        
-        // Filtramos las que tengan userId (minúscula) O userID (mayúscula) igual al del usuario
-        const userTasks = allTasks.filter(t => t.userId == userId || t.userID == userId);
-        
-        renderTasks(userTasks);
-    } catch (error) {
-        console.error("Error al cargar tareas:", error);
-    }
-}
-
-function showError(errorElement, message) {
-    errorElement.textContent = message;
-}
-
-function clearError(errorElement, inputElement) {
-    errorElement.textContent = '';
-    inputElement.classList.remove('error');
-}
-
-function isValidInput(input, message, errorElement){
-    if (!input.value.trim()) {
-        showError(errorElement, message);
-        input.classList.add('error');
-        return false;
-    }else{
-        clearError(errorElement, input);
-        return true;
-    }
-}
 let isVisible = false;
 totalUsers.addEventListener('click', async ()=>{
     if (isVisible) {
@@ -213,7 +68,6 @@ totalUsers.addEventListener('click', async ()=>{
 
         card_Users.appendChild(pNombreUsers)
         card_Users.appendChild(pDoc)
-        
         divUsers.appendChild(card_Users)
         
     })
@@ -222,46 +76,16 @@ totalUsers.addEventListener('click', async ()=>{
     isVisible = true;
     
 })
-userDocInput.addEventListener('input', () => {
-    if (userDocInput.value.trim().length > 0) {
-        clearError(userDocError, userDocInput);
-    }
-});
-taskInputTitle.addEventListener('input', () => {
-    if (taskInputTitle.value.trim().length > 0) {
-        clearError(tituloError, taskInputTitle);
-    }
-});
-taskInputDescription.addEventListener('input', () => {
-    if (taskInputDescription.value.trim().length > 0) {
-        clearError(tareaError, taskInputDescription);
-    }
-});
-// ============================================
-// 3. Manipulacion del DOM
-// ============================================
 
-
-    
-
-// ============================================
-// 4. MANEJO DE EVENTOS (Lógica de las funciones)
-// ============================================
-
-/**
- * Lógica para limpiar el error mientras se escribe
- */
 function handleInputChange() {
-    if (userDocInput.value.trim().length > 0) {
-        clearError(userDocError, userDocInput);
-    }
-    if (taskInputTitle.value.trim().length > 0) {
-        clearError(userDocError, userDocInput);
-    }
-    if (taskInputDescription.value.trim().length > 0) {
-        clearError(userDocError, userDocInput);
-    }
+    if (userDocInput.value.trim().length > 0) clearError(userDocError, userDocInput);
 }
+
+
+// ============================================
+// 3. MANEJO DE EVENTOS (Lógica de las funciones)
+// ============================================
+
 
 /**
  * Función principal para el envío del formulario
@@ -269,87 +93,61 @@ function handleInputChange() {
 async function handleFormSubmit(e) {
     e.preventDefault();
     
-    const isFieldValid = isValidInput(
-        userDocInput, 
-        'El documento del usuario es obligatorio', 
-        userDocError
-    );
-
-    if (!isFieldValid) return;
+    if (!isValidInput(userDocInput, 'El documento es obligatorio', userDocError)) return;
 
     try {
-        const value = userDocInput.value.trim();
         const users = await getUsers();
-        const user = users.find(u => u.document === value);
+        const user = users.find(u => u.document === userDocInput.value.trim());
 
-        if (!user) {
-            const msgNoExiste = 'Usuario no encontrado';
-            showError(userDocError, msgNoExiste);
-            alert(msgNoExiste); 
+        if (!user || !user.active) {
+            const msg = !user ? 'Usuario no encontrado' : 'Usuario inactivo';
+            showError(userDocError, msg);
+            notify.show(msg, "error");
             return;
         }
 
-        if (!user.active) {
-            const msgInactivo = 'El usuario existe pero está inactivo';
-            showError(userDocError, msgInactivo);
-            alert(msgInactivo); 
-            return;
-        }
-
-        clearError(userDocError, userDocInput);
-        alert(`¡Usuario encontrado con éxito!\nBienvenido/a: ${user.name}`);
-        console.log('Usuario validado:', user);
+        notify.show(`¡Usuario encontrado con éxito!\nBienvenido/a: ${user.name}`, "success");
 
         // gualdar en el local storage el id del user
-        const currentUserId=user.id
-        localStorage.setItem('idUsuarioActual', currentUserId);
+        localStorage.setItem('idUsuarioActual', user.id);
         
         // Activar Formulario echo por Juan David Ramirez Saavedra
-        const taskFormContainer = document.getElementById("taskFormContainer");
-        taskFormContainer.classList.remove("formulario-oculto")
-
-        taskForm.addEventListener("submit",async (e)=>{
-            e.preventDefault();
-
-            // const valueTaskTitle = taskInputTitle.value.trim();
-            // const valueTaskDescription = taskInputDescription.value.trim();
-            // const formError = document.querySelectorAll(".inputTask")
-            
-            const isFieldValidTarea = isValidInput(
-                taskInputTitle, 
-                'El titulo de la tarea es obligatorio', 
-                tituloError
-            );
-
-            const isFieldValiddesc = isValidInput(
-                taskInputDescription, 
-                'El la descripcion de la tarea es obligatoria', 
-                tareaError
-            );
-
-            if (!isFieldValidTarea || !isFieldValiddesc) return;
-
-            
-            // alert("Tarea válida, procediendo al envío");
-            await createTask(taskInputTitle.value,taskInputDescription.value, currentUserId);
-
-            alert("Tarea enviada correctamente");
-            loadAndRefreshTasks(currentUserId);
-            taskInputDescription.value = "";
-            taskInputTitle.value = "";
-        });
-
-
-        loadAndRefreshTasks(user.id);
-
-        
-        
-        
+        document.getElementById("taskFormContainer").classList.remove("formulario-oculto");
+        loadAndRefreshTasks(user.id, tasksContainer, taskCount, emptyState);
     } catch (error) {
         console.error('Error:', error);
-        showError(userDocError, 'Error al conectar con el servidor');
+        notify.show("Error al conectar con el servidor", "error");
     }
 }
+taskForm.addEventListener("submit",async (ev)=>{
+    ev.preventDefault();
+
+    // 1. Obtenemos el ID que guardamos en handleFormSubmit
+    const currentUserId = localStorage.getItem('idUsuarioActual');            
+    const validT = isValidInput(taskInputTitle, 'Título obligatorio', document.getElementById('tituloError'));
+    const validD = isValidInput(taskInputDescription, 'Descripción obligatoria', document.getElementById('tareaError'));
+            
+    if (validT && validD && currentUserId) {
+        try {
+            // Usamos currentUserId en lugar de user.id
+            await createTask(taskInputTitle.value, taskInputDescription.value, currentUserId);
+            
+            notify.show("Tarea enviada correctamente", "success");
+            
+            // Refrescamos la lista usando el ID recuperado
+            loadAndRefreshTasks(currentUserId, tasksContainer, taskCount, emptyState);
+            
+            // Limpiamos los campos
+            taskInputDescription.value = "";
+            taskInputTitle.value = "";
+        } catch (error) {
+            console.error("Error al crear tarea:", error);
+            notify.show("No se pudo crear la tarea", "error");
+        }
+    } else if (!currentUserId) {
+        notify.show("Error: No se detectó un usuario activo", "error");
+    }
+});
 // ============================================
 // 5. REGISTRO DE EVENTOS
 // ============================================
