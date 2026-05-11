@@ -105,3 +105,21 @@ export async function loadAndRefreshTasks(userId, tasksContainer, taskCount, emp
         console.error("Error al cargar tareas:", error);
     }
 }
+
+export async function cargarDatosFiltrados(fecha, nombre) {
+    try {
+        // Usamos URLSearchParams para manejar los parámetros de forma limpia
+        const params = new URLSearchParams();
+        
+        if (fecha) params.append('date', fecha);
+        
+        // Aquí está el truco: usamos 'title_like' para búsqueda flexible
+        if (nombre) params.append('title_like', nombre);
+
+        const response = await fetch(`http://localhost:3000/tasks?${params.toString()}`);
+        return await response.json();
+    } catch (error) {
+        console.error("Error en el fetch:", error);
+        return [];
+    }
+}

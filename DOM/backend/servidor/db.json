@@ -247,6 +247,46 @@
       "estado": "en progreso",
       "userId": 1,
       "id": "O4aTX9sUCW4"
+    },
+    {
+      "title": "fecha corregida",
+      "description": "fecha sin desfase",
+      "date": "2026-05-11",
+      "estado": "en progreso",
+      "userId": 1,
+      "id": "CLRsOFK05t0"
+    },
+    {
+      "title": "sol ",
+      "description": "con capul",
+      "date": "2026-05-11",
+      "estado": "en progreso",
+      "userId": 7,
+      "id": "Yn69qstEN1w"
+    },
+    {
+      "title": "holka",
+      "description": "fgdgdf",
+      "date": "2026-05-11",
+      "estado": "en progreso",
+      "userId": 7,
+      "id": "gFkkIZRUCSs"
+    },
+    {
+      "title": "rewrewrew",
+      "description": "rewrewrewr",
+      "date": "2026-05-11",
+      "estado": "en progreso",
+      "userId": 1,
+      "id": "Qsh6hQ-zzOo"
+    },
+    {
+      "title": "papas",
+      "description": "aguacates",
+      "date": "2026-01-10",
+      "estado": "en progreso",
+      "userId": 7,
+      "id": "k5hAUTqUz4E"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
