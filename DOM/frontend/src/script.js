@@ -17,6 +17,7 @@ import { createTask } from "../modules/tasks/index.js";
 import { showError, clearError, isValidInput } from "../modules/helpers/index.js";
 import { notify } from "../modules/helpers/index.js";
 import { loadAndRefreshTasks } from "../modules/tasks/index.js";
+import { cargarDatosFiltrados,renderTasks} from "../modules/tasks/index.js";
 
 /**
  * Seleccionamos los elementos del DOM que necesitamos manipular.
@@ -40,9 +41,33 @@ const taskCount = document.getElementById('taskCount');
 const emptyState = document.getElementById('emptyState');
 let contadorTareas = 0; // Para actualizar el número de tareas arriba
 
+const inputFecha = document.getElementById('filtroFecha');
+const inputNombre = document.getElementById('filtroNombre');
 // ============================================
 // 2. FUNCIONES AUXILIARES
 // ============================================
+
+async function realizarBusqueda() {
+    const fecha = inputFecha.value;
+    const nombreBusqueda = inputNombre.value.toLowerCase().trim();
+
+    const datos = await cargarDatosFiltrados(fecha);
+    
+    
+    const userId = localStorage.getItem('idUsuarioActual');
+    const tareasFinales = datos.filter(t => {
+        
+        const esMismoUsuario = (t.userId == userId || t.userID == userId);
+
+
+        const coincideNombre = t.title.toLowerCase().includes(nombreBusqueda);
+
+        return esMismoUsuario && coincideNombre;
+    });
+    renderTasks(tareasFinales, tasksContainer, taskCount, emptyState);
+}
+inputFecha.addEventListener("change", realizarBusqueda);
+inputNombre.addEventListener("input", realizarBusqueda);
 
 
 let isVisible = false;
@@ -126,11 +151,17 @@ taskForm.addEventListener("submit",async (ev)=>{
     const currentUserId = localStorage.getItem('idUsuarioActual');            
     const validT = isValidInput(taskInputTitle, 'Título obligatorio', document.getElementById('tituloError'));
     const validD = isValidInput(taskInputDescription, 'Descripción obligatoria', document.getElementById('tareaError'));
-            
+    const fechaActual = new Date();
+
+    const año = fechaActual.getFullYear();
+    const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+    const dia = fechaActual.getDate().toString().padStart(2, '0'); 
+
+    const date = `${año}-${mes}-${dia}`;
     if (validT && validD && currentUserId) {
         try {
             // Usamos currentUserId en lugar de user.id
-            await createTask(taskInputTitle.value, taskInputDescription.value, currentUserId);
+            await createTask(taskInputTitle.value, taskInputDescription.value, date, currentUserId);
             
             notify.show("Tarea enviada correctamente", "success");
             

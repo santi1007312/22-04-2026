@@ -489,10 +489,30 @@ body {
 .task-card{
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 20px;
     align-items: center;
     justify-items: center;
+    grid-template-areas:
+    "contenedorInformacion botonEditar"
+    "contenedorInformacion botonEliminar"
+    ;
 }
+
+.containerInformation{
+    grid-area: contenedorInformacion;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.btn-delete{
+    grid-area: botonEliminar;
+}
+.btn-edit{
+    grid-area: botonEditar;
+}
+
 .task-card:hover {
     box-shadow: var(--shadow-xl);
     transform: translateY(-2px);
