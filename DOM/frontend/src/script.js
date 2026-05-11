@@ -43,6 +43,7 @@ let contadorTareas = 0; // Para actualizar el número de tareas arriba
 
 const inputFecha = document.getElementById('filtroFecha');
 const inputNombre = document.getElementById('filtroNombre');
+const inputEstado = document.getElementById('filtroEstado')
 // ============================================
 // 2. FUNCIONES AUXILIARES
 // ============================================
@@ -50,6 +51,7 @@ const inputNombre = document.getElementById('filtroNombre');
 async function realizarBusqueda() {
     const fecha = inputFecha.value;
     const nombreBusqueda = inputNombre.value.toLowerCase().trim();
+    const estadoBusqueda = inputEstado.value;
 
     const datos = await cargarDatosFiltrados(fecha);
     
@@ -62,13 +64,28 @@ async function realizarBusqueda() {
 
         const coincideNombre = t.title.toLowerCase().includes(nombreBusqueda);
 
-        return esMismoUsuario && coincideNombre;
+        const coincideEstado = estadoBusqueda === "" || t.estado === estadoBusqueda;
+
+        return esMismoUsuario && coincideNombre && coincideEstado;
     });
     renderTasks(tareasFinales, tasksContainer, taskCount, emptyState);
 }
 inputFecha.addEventListener("change", realizarBusqueda);
 inputNombre.addEventListener("input", realizarBusqueda);
+inputEstado.addEventListener("change", realizarBusqueda);
 
+// document.addEventListener("DOMContentLoaded", () => {
+
+//     const hoy = new Date("2026-01-01");
+    
+
+//     const fechaISO = hoy.toISOString().split('T')[0];
+
+//     const inputFecha = document.getElementById('filtroFecha');
+//     inputFecha.value = fechaISO;
+
+//     // realizarBusqueda(); 
+// });
 
 let isVisible = false;
 totalUsers.addEventListener('click', async ()=>{
