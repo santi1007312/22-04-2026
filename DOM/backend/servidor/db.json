@@ -140,6 +140,44 @@
       "userId": "1",
       "userID": "1",
       "id": "NAL0EWxGf_k"
+    },
+    {
+      "title": "HOLA",
+      "description": "beunas tardes",
+      "userId": 2,
+      "id": "UlxEgA3"
+    },
+    {
+      "title": "HOLA",
+      "description": "buenos dias",
+      "userId": 2,
+      "id": "XK1VVgL"
+    },
+    {
+      "title": "chao",
+      "description": "beunas tardes",
+      "userId": 1,
+      "id": "AYKbia8"
+    },
+    {
+      "title": "chao",
+      "description": "hola",
+      "userId": 2,
+      "id": "bb9K8ba"
+    },
+    {
+      "title": "eileen",
+      "descripcion": "hola como esta",
+      "userId": "1",
+      "userID": "1",
+      "id": "fygZ8SJ"
+    },
+    {
+      "title": "eillen",
+      "descripcion": "juanda",
+      "userId": "2",
+      "userID": "2",
+      "id": "IKqC2ac"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
