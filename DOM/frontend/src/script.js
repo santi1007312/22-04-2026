@@ -126,11 +126,14 @@ taskForm.addEventListener("submit",async (ev)=>{
     const currentUserId = localStorage.getItem('idUsuarioActual');            
     const validT = isValidInput(taskInputTitle, 'Título obligatorio', document.getElementById('tituloError'));
     const validD = isValidInput(taskInputDescription, 'Descripción obligatoria', document.getElementById('tareaError'));
-            
+    const año = new Date().getFullYear();
+    const mes = new Date().getMonth();
+    const dia = new Date().getDay();
+    const date = (dia+"/"+mes+"/"+año);
     if (validT && validD && currentUserId) {
         try {
             // Usamos currentUserId en lugar de user.id
-            await createTask(taskInputTitle.value, taskInputDescription.value, currentUserId);
+            await createTask(taskInputTitle.value, taskInputDescription.value, date, currentUserId);
             
             notify.show("Tarea enviada correctamente", "success");
             

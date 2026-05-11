@@ -27,14 +27,23 @@ export function renderTasks(tasks, tasksContainer, taskCount, emptyState) {
         buttonDelete.classList.add('btn-delete'); // Tu clase original
         const buttonEdit = document.createElement('button');
         buttonEdit.classList.add('btn-edit'); // Tu clase original
+        const fecha = document.createElement("p")
+        const estado = document.createElement("p")
+        const containerInformation = document.createElement("div");
+        containerInformation.classList.add("containerInformation")
 
         h4Title.textContent = task.title;
         pContent.textContent = task.descripcion || task.description;
+        fecha.textContent = task.date;
+        estado.textContent = task.estado
         buttonDelete.textContent = 'Eliminar';
         buttonEdit.textContent = 'Editar';
 
-        divTask.appendChild(h4Title);
-        divTask.appendChild(pContent);
+        containerInformation.appendChild(h4Title);
+        containerInformation.appendChild(pContent);
+        containerInformation.appendChild(fecha);
+        containerInformation.appendChild(estado)
+        divTask.appendChild(containerInformation);
         divTask.appendChild(buttonDelete);
         divTask.appendChild(buttonEdit);
 
