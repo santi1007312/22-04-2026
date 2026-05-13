@@ -1,0 +1,18 @@
+{
+  "name": "dom",
+  "version": "1.0.0",
+  "description": "Antes de iniciar el desarrollo, analiza cuidadosamente el enunciado e identifica: \r • ¿Qué información debe ingresar el usuario? \r rta: El usuario ingresara dos tipos de informacion: \r -El documento del usuario\r -El nombre de la tarea, la descripcion y el estado",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "vite": "^8.0.12"
+  }
+}
