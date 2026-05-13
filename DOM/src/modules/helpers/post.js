@@ -1,5 +1,5 @@
 export const post = (url, body) =>{
-    fetch(`http://localhost:3000/${url}`,{
+    fetch(`http://10.5.225.161:3001/${url}`,{
         method: "POST",
         body: JSON.stringify(body),
         headers: {
