@@ -12,12 +12,12 @@
 // 1. SELECCIÓN DE ELEMENTOS DEL DOM
 // ============================================
 
-import { getUsers } from "../modules/users/index.js";
-import { createTask } from "../modules/tasks/index.js";
-import { showError, clearError, isValidInput } from "../modules/helpers/index.js";
-import { notify } from "../modules/helpers/index.js";
-import { loadAndRefreshTasks } from "../modules/tasks/index.js";
-import { cargarDatosFiltrados,renderTasks} from "../modules/tasks/index.js";
+import { getUsers } from "./modules/users/index.js";
+import { createTask } from "./modules/tasks/index.js";
+import { showError, clearError, isValidInput } from "./modules/helpers/index.js";
+import { notify } from "./modules/helpers/index.js";
+import { loadAndRefreshTasks } from "./modules/tasks/index.js";
+import { cargarDatosFiltrados,renderTasks} from "./modules/tasks/index.js";
 
 /**
  * Seleccionamos los elementos del DOM que necesitamos manipular.
