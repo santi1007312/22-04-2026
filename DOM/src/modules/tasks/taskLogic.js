@@ -124,7 +124,7 @@ export async function cargarDatosFiltrados(fecha, nombre) {
 // ====================================================================
 const editModal = document.getElementById('editModal');
 const editForm = document.getElementById('editTaskForm');
-const closeModalBtn = document.getElementById('closeModalBtn');
+const closeModalBtn = document.getElementById('closeModalbtn');
 
 if (editForm) {
     editForm.addEventListener('submit', async (e) => {
