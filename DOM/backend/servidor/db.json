@@ -178,6 +178,22 @@
       "userId": "2",
       "userID": "2",
       "id": "IKqC2ac"
+    },
+    {
+      "title": "papas",
+      "description": "aguacates",
+      "date": "2026-05-13",
+      "estado": "en progreso",
+      "userId": 1,
+      "id": "ISz9tVZSmCM"
+    },
+    {
+      "title": "pasado mañana",
+      "description": "aguacates",
+      "date": "2026-05-13",
+      "estado": "en progreso",
+      "userId": 1,
+      "id": "GH6FTpWE4AY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
