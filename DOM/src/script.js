@@ -45,8 +45,9 @@ let contadorTareas = 0; // Para actualizar el número de tareas arriba
 
 const inputFecha = document.getElementById('filtroFecha');
 const inputNombre = document.getElementById('filtroNombre');
-const inputEstado = document.getElementById('filtroEstado')
+const inputEstado = document.getElementById('filtroEstado');
 
+const exportTasksBtn = document.querySelector('exportTasksBtn')
 // ============================================
 // 2. FUNCIONES AUXILIARES
 // ============================================
@@ -205,6 +206,24 @@ taskForm.addEventListener("submit",async (ev)=>{
 
 userForm.addEventListener('submit', handleFormSubmit);
 userDocInput.addEventListener('input', handleInputChange);
+
+if (exportTasksBtn) {
+    exportTasksBtn.addEventListener('click', () => {
+        try {
+            // Traemos las tareas actuales que están cargadas en la pantalla
+            const tareasAAuxiliar = getCurrentTasks();
+            
+            // Las exportamos usando helper
+            exportToJSON(tareasAAuxiliar, 'tareas_sena.json');
+            
+            notify.show("¡Tareas exportadas correctamente!", "success");
+        } catch (error) {
+            // Si el array está vacío, el helper lanza un error que atrapamos aquí
+            notify.show(error.message, "error");
+        }
+    });
+}
+
 
 // ============================================
 // 6. REFLEXIÓN Y DOCUMENTACIÓN
