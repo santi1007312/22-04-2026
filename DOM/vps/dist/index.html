@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Mensajes - Ejercicio DOM</title>
+  <script type="module" crossorigin src="/assets/index-CiB8m1aw.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BJmeFKYM.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado principal -->
+        <header class="header">
+            <h1 class="header__title">Busqueda de usuarios y asignacion de tareas</h1>
+            <p class="header__subtitle">Busque su usuario y agregue tareas necesarias</p>
+        </header>
+
+        <!-- Formulario de entrada -->
+        <section class="form-section">
+            <div class="card__users">
+                <div id="card_totalUsers">
+
+                </div>
+                <button class="btn" id="usersBtn">Visualizar usuarios</button>
+            </div>
+            <div class="card">
+                <h2 class="card__title">Validar de usuarios</h2>
+                
+                <form id="userForm" class="form" novalidate>
+                    <div class="form__group">
+                        <label for="userDoc" class="form__label">
+                            Documento del usuario
+                        </label>
+                        <input 
+                            type="text" 
+                            id="userDoc" 
+                            class="form__input" 
+                            placeholder="Ingresa el documento del usuario"
+                            aria-required="true"
+                        >
+                        <span class="form__error" id="userDocError"></span>
+                    </div>
+                    <button type="submit" class="btn btn--primary" id="submitBtn">
+                        <span class="btn__text">Buscar Usuario</span>
+                        <span class="btn__icon">➤</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- formulario para agragar tareas -->
+        <section id="taskFormContainer" class="formulario-oculto formulario-task">
+            <form id="taskForm">
+                <h3>nueva tarea</h3>
+                <input type="text" id="taskInputTitle" placeholder="Titulo" class="inputTask form__input">
+                <span class="form__error" id="tituloError"></span>
+                <input type="text" id="taskInputDescription" placeholder="Describa La Tarea" class="inputTask form__input">
+                <span class="form__error" id="tareaError"></span>
+
+                <button type="submit" class="botonEnviar">
+                    <span>Guardar Tarea</span>
+                    <span class="btn__icon">➤</span>
+                </button>
+            </form>
+        </section>
+
+        <section class="oedenar" id="ordenar">
+            <input type="date" id="filtroFecha">
+            <input type="text" class="filtroNombre" id="filtroNombre" placeholder="Nombre de la tarea">
+            <select name="" id="filtroEstado">
+                <option value="">elija el estado</option>
+                <option value="en progreso">en progreso</option>
+                <option value="completada">completada</option>
+            </select>
+        </section>
+
+        <!-- Área de tareas -->
+        <section class="tasks-section">
+            <div class="tasks-header">
+                <h2 class="tasks-header__title">Tareas asignadas</h2>
+                <div class="tasks-header__actions">
+                    <span class="tasks-header__count" id="taskCount">0 tareas</span>
+                    <button id="exportTasksBtn" class="btn btn--secondary">
+                        Exportar JSON
+                    </button>
+                </div>
+            </div>
+
+            <div id="tasksContainer" class="tasks-container">
+                <!-- Las tareas se agregarán aquí dinámicamente -->
+                <div class="tasks-empty" id="emptyState">
+                    <svg class="tasks-empty__icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <p class="tasks-empty__text">Aún no hay tareas asignadas</p>
+                    <p class="tasks-empty__subtext">Completa el formulario para agregar tu primera tarea</p>
+                </div>
+            </div>
+        </section>
+
+        <div id="editModal" class="modal">
+            <div class="modal__content">
+                <span class="modal__close" id="closeModalbtn">&times;</span>
+                <h3 class="modal__title">Editar Tarea</h3>
+                <form id="editTaskForm" class="form">
+                    <div class="form__group">
+                        <label for="editTaskTitle" class="form__label">Título</label>
+                        <input type="text" id="editTaskTitle" class="form__input" required>
+                    </div>
+                    <div class="form__group">
+                        <label for="editTaskDescription" class="form__label">Descripción</label>
+                        <input type="text" id="editTaskDescription" class="form__input" required>
+                    </div>
+                    <button type="submit" class="botonEnviar" style="margin-top: 15px; width: 100%;">
+                        <span>Guardar Cambios</span>
+                        <span class="btn__icon">➤</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer informativo -->
+        <footer class="footer">
+            <p class="footer__text">Ejercicio de manipulación del DOM | SENA - Desarrollo Web</p>
+        </footer>
+    </div>
+
+</body>
+</html>
