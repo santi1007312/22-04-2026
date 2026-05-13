@@ -2,9 +2,13 @@ import { get} from "../helpers/index.js";
 import { deleteData } from "../tasks/index.js";
 import { updateTask } from "./updateTask.js";
 import { notify } from "../helpers/notifications.js";
-
+let currentTasks = [];
+export function getCurrentTasks(){
+    return currentTasks;
+}
 
 export function renderTasks(tasks, tasksContainer, taskCount, emptyState) {
+    currentTasks = tasks;
     tasksContainer.innerHTML = '';
     let contadorTareas = tasks.length; 
     taskCount.textContent = contadorTareas;
@@ -57,6 +61,7 @@ export function renderTasks(tasks, tasksContainer, taskCount, emptyState) {
                     divTask.remove();
                     contadorTareas--;
                     taskCount.textContent = contadorTareas;
+                    currentTasks = currentTasks.filter(t => t.id !== task.id);
                     if (contadorTareas === 0) {
                         emptyState.style.display = 'block';
                         tasksContainer.appendChild(emptyState);
@@ -68,29 +73,19 @@ export function renderTasks(tasks, tasksContainer, taskCount, emptyState) {
             }
         });
 
-        buttonEdit.addEventListener('click', async () => {
-            const nuevoTitulo = prompt("Editar título de la tarea:", task.title);
-            const nuevoDescripcion = prompt("Editar descripción de la tarea:", task.descripcion || task.description);
+        buttonEdit.addEventListener('click', () => {
+            const editModal = document.getElementById('editModal');
+            const editTitleInput = document.getElementById('editTaskTitle');
+            const editDescInput = document.getElementById('editTaskDescription')
 
-            if (nuevoTitulo === null || nuevoDescripcion === null) return; 
+            if (editModal && editTitleInput && editDescInput) {
 
-            if (nuevoTitulo.trim() === "" || nuevoDescripcion.trim() === "") {
-                notify.show("El título y la descripción no pueden estar vacíos.", "error");
-                return;
-            }
+                editTitleInput.value = task.title;
+                editDescInput.value = task.descripcion || task.description;
 
-            try {
-                const currentUserId = localStorage.getItem('idUsuarioActual') || task.userId || task.userID;
-                await updateTask(task.id, nuevoTitulo.trim(), nuevoDescripcion.trim(), currentUserId);
+                window.activeEditing = {task, h4Title, pContent};
 
-                h4Title.textContent = nuevoTitulo.trim();
-                pContent.textContent = nuevoDescripcion.trim();
-                task.title = nuevoTitulo.trim();
-                task.descripcion = nuevoDescripcion.trim();
-                
-                notify.show("¡Tarea actualizada correctamente!", "success");
-            } catch (error) {
-                notify.show("Hubo un error al actualizar la tarea.", "error");
+                editModal.classList.add('modal-activo');
             }
         });
     });
@@ -123,3 +118,68 @@ export async function cargarDatosFiltrados(fecha, nombre) {
         return [];
     }
 }
+
+// ====================================================================
+// Lógica de eventos para el Modal de Edición
+// ====================================================================
+const editModal = document.getElementById('editModal');
+const editForm = document.getElementById('editTaskForm');
+const closeModalBtn = document.getElementById('closeModalBtn');
+
+if (editForm) {
+    editForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Verificamos si hay una tarea en proceso de edición
+        if (!window.activeEditing) return;
+
+        const { task, h4Title, pContent } = window.activeEditing;
+        const nuevoTitulo = document.getElementById('editTaskTitle').value.trim();
+        const nuevoDescripcion = document.getElementById('editTaskDescription').value.trim();
+
+        if (nuevoTitulo === "" || nuevoDescripcion === "") {
+            notify.show("El título y la descripción no pueden estar vacíos.", "error");
+            return;
+        }
+
+        try {
+            const currentUserId = localStorage.getItem('idUsuarioActual') || task.userId || task.userID;
+            
+            // Consumimos el endpoint de actualizar que ya crearon
+            await updateTask(task.id, nuevoTitulo, nuevoDescripcion, currentUserId);
+
+            // Actualizamos la interfaz directamente
+            h4Title.textContent = nuevoTitulo;
+            pContent.textContent = nuevoDescripcion;
+            
+            // Actualizamos el objeto en memoria
+            task.title = nuevoTitulo;
+            if (task.hasOwnProperty('descripcion')) task.descripcion = nuevoDescripcion;
+            if (task.hasOwnProperty('description')) task.description = nuevoDescripcion;
+
+            // Cerramos el modal de forma limpia
+            editModal.classList.remove('modal-activo');
+            window.activeEditing = null;
+
+            notify.show("¡Tarea actualizada correctamente!", "success");
+        } catch (error) {
+            notify.show("Hubo un error al actualizar la tarea.", "error");
+        }
+    });
+}
+
+// Evento para cerrar el modal desde la 'X'
+if (closeModalBtn && editModal) {
+    closeModalBtn.addEventListener('click', () => {
+        editModal.classList.remove('modal-activo');
+        window.activeEditing = null;
+    });
+}
+
+// Cerrar el modal haciendo clic por fuera del recuadro
+window.addEventListener('click', (e) => {
+    if (e.target === editModal) {
+        editModal.classList.remove('modal-activo');
+        window.activeEditing = null;
+    }
+});

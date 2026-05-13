@@ -18,6 +18,8 @@ import { showError, clearError, isValidInput } from "../modules/helpers/index.js
 import { notify } from "../modules/helpers/index.js";
 import { loadAndRefreshTasks } from "../modules/tasks/index.js";
 import { cargarDatosFiltrados,renderTasks} from "../modules/tasks/index.js";
+import { exportToJSON } from "../modules/helpers/exportHelpers.js";
+import { getCurrentTasks } from "../modules/tasks/taskLogic.js";
 
 /**
  * Seleccionamos los elementos del DOM que necesitamos manipular.
@@ -44,6 +46,8 @@ let contadorTareas = 0; // Para actualizar el número de tareas arriba
 const inputFecha = document.getElementById('filtroFecha');
 const inputNombre = document.getElementById('filtroNombre');
 const inputEstado = document.getElementById('filtroEstado')
+
+const exportTasksBtn = document.getElementById()
 // ============================================
 // 2. FUNCIONES AUXILIARES
 // ============================================
