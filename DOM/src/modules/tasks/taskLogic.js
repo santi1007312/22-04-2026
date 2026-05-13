@@ -116,7 +116,7 @@ export async function cargarDatosFiltrados(fecha, nombre) {
         // Aquí está el truco: usamos 'title_like' para búsqueda flexible
         if (nombre) params.append('title_like', nombre);
 
-        const response = await fetch(`http://localhost:3000/tasks?${params.toString()}`);
+        const response = await fetch(`http://10.5.225.161:3001/tasks?${params.toString()}`);
         return await response.json();
     } catch (error) {
         console.error("Error en el fetch:", error);

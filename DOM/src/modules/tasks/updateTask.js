@@ -1,6 +1,6 @@
 export async function updateTask (id, title, description, userId) {
     try {
-        const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+        const response = await fetch(`http://10.5.225.161:3001/tasks/${id}`, {
             method: 'PUT', // o 'PATCH'
             headers: {
                 'Content-Type': 'application/json',
